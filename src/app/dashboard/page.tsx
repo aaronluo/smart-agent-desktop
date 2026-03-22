@@ -325,7 +325,7 @@ export default function DashboardPage() {
         </div>
       </header>
 
-      <div className="px-8 py-6">
+      <div className="px-8 py-6 max-w-6xl mx-auto">
         {/* Page Title */}
         <div className="mb-6">
           <h2 className="font-display text-2xl font-medium uppercase tracking-wide text-midnight">

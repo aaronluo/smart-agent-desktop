@@ -1,78 +1,107 @@
-export default function Home() {
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+
+export default function LoginPage() {
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    router.push("/dashboard");
+  };
+
   return (
-    <main className="min-h-screen bg-canvas">
-      {/* Header */}
-      <header className="bg-white border-b border-canvas-200 px-8 py-4">
-        <div className="flex items-center justify-between">
-          <h1 className="font-display text-xl font-bold uppercase tracking-wide text-midnight">
-            Smart Agent Desktop
+    <main className="min-h-screen bg-canvas flex items-center justify-center">
+      <div style={{ width: "100%", maxWidth: 380 }}>
+        {/* Logo */}
+        <div className="text-center mb-10">
+          <h1 className="font-display text-3xl font-bold uppercase tracking-wide text-midnight mb-2">
+            Smart Agent
           </h1>
-          <nav className="flex gap-8">
-            <a href="/dashboard" className="text-sm font-medium text-midnight-100 hover:text-true-blue">
-              Dashboard
-            </a>
-            <a href="/agents" className="text-sm font-medium text-midnight-100 hover:text-true-blue">
-              Agents
-            </a>
-            <a href="/settings" className="text-sm font-medium text-midnight-100 hover:text-true-blue">
-              Settings
-            </a>
-          </nav>
+          <p className="text-midnight-100 text-sm">Enterprise AI Desktop</p>
         </div>
-      </header>
 
-      {/* Hero */}
-      <section className="bg-midnight text-white px-8 py-24">
-        <div className="max-w-3xl">
-          <div className="inline-block px-3 py-1 rounded-full bg-gold/20 text-gold text-xs font-semibold tracking-wider uppercase mb-6">
-            Powered by AI
-          </div>
-          <h2 className="font-display text-4xl font-medium uppercase tracking-wide mb-6">
-            Built for What's Next
+        {/* Login Card */}
+        <div className="bg-white rounded-2xl shadow-lg p-8 border border-canvas-200">
+          <h2 className="font-display text-xl font-semibold text-midnight mb-6 text-center">
+            Sign In
           </h2>
-          <p className="text-canvas-300 text-lg leading-relaxed">
-            Enterprise AI agents designed to accelerate your digital transformation.
-            Intelligent automation meets human expertise.
-          </p>
-        </div>
-      </section>
 
-      {/* Cards */}
-      <section className="px-8 py-16">
-        <h3 className="font-display text-2xl font-medium uppercase tracking-wide mb-8">
-          Core Capabilities
-        </h3>
-        <div className="grid grid-cols-3 gap-6">
-          {[
-            {
-              title: "Autonomous Operations",
-              desc: "AI-driven automation frameworks that reduce costs and optimize efficiency.",
-              badge: "AI Platform",
-            },
-            {
-              title: "Human in the Loop",
-              desc: "Augmented intelligence that enhances human decision-making.",
-              badge: "Augmented",
-            },
-            {
-              title: "Global Scale",
-              desc: "70+ countries, 24/7 support, local expertise with worldwide reach.",
-              badge: "Enterprise",
-            },
-          ].map((card, i) => (
-            <div
-              key={i}
-              className="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow"
-            >
-              <span className="inline-block px-3 py-1 rounded-full bg-true-blue/10 text-royal text-xs font-semibold tracking-wider uppercase mb-4">
-                {card.badge}
-              </span>
-              <h4 className="font-display text-lg font-semibold mb-2">{card.title}</h4>
-              <p className="text-midnight-100 text-sm leading-relaxed">{card.desc}</p>
+          <form onSubmit={handleLogin} className="space-y-5">
+            <div>
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-midnight mb-2"
+              >
+                Email Address
+              </label>
+              <input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="you@dxc.com"
+                className="w-full px-4 py-3 rounded-lg border border-canvas-200 bg-canvas text-midnight placeholder:text-midnight-100/50 focus:outline-none focus:ring-2 focus:ring-true-blue/30 focus:border-true-blue transition-colors"
+              />
             </div>
-          ))}
+
+            <div>
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-midnight mb-2"
+              >
+                Password
+              </label>
+              <input
+                id="password"
+                type="password"
+                placeholder="••••••••"
+                className="w-full px-4 py-3 rounded-lg border border-canvas-200 bg-canvas text-midnight placeholder:text-midnight-100/50 focus:outline-none focus:ring-2 focus:ring-true-blue/30 focus:border-true-blue transition-colors"
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full py-3 px-4 bg-midnight text-white font-semibold rounded-lg hover:bg-midnight-300 disabled:opacity-60 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
+            >
+              {isLoading ? (
+                <>
+                  <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                      fill="none"
+                    />
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                    />
+                  </svg>
+                  Signing in...
+                </>
+              ) : (
+                "Sign In"
+              )}
+            </button>
+          </form>
         </div>
-      </section>
+
+        {/* Footer */}
+        <p className="text-center text-midnight-100/60 text-xs mt-8">
+          Powered by DXC Technology
+        </p>
+      </div>
     </main>
   );
 }
